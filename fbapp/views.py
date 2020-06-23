@@ -21,7 +21,7 @@ def index():
     description = """
         Toi, tu sais comment utiliser la console ! Jamais à court d'idées pour réaliser ton objectif, tu es déterminé-e et persévérant-e. Tes amis disent d'ailleurs volontiers que tu as du caractère et que tu ne te laisses pas marcher sur les pieds. Un peu hacker sur les bords, tu aimes trouver des solutions à tout problème. N'aurais-tu pas un petit problème d'autorité ? ;-)
     """
-    page_title = "Le test ultime"
+    page_title = "Life Quotes"
 
     og_description = "Découvre qui tu es vraiment en faisant le test ultime !"
     return render_template('index.html',
