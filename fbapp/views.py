@@ -13,7 +13,7 @@ from .utils import find_content, OpenGraphImage
 def index():
     if 'img' in request.args:
         img = request.args['img']
-        og_url = url_for('index', img=img, _external=True)
+        og_url = url_for('/', _external=True)
         og_image = url_for('static', filename=img, _external=True)
     else:
         og_url = url_for('index', _external=True)
@@ -43,13 +43,11 @@ def result():
     description = find_content(gender).description
     img = OpenGraphImage(uid, user_name, description).location
     og_url = url_for('index', img=img, _external=True)
-    og_image = url_for('static', filename=img, _external=True)
     return render_template('result.html',
                             user_name=user_name,
                             user_image=profile_pic,
                             description=description,
-                            og_url=og_url,
-                            og_image=og_image)
+                            og_url=og_url)
 
 # @app.route('/contents/<int:content_id>/')
 # def content(content_id):
