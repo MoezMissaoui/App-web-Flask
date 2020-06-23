@@ -35,6 +35,7 @@ def index():
                           og_description=og_description)
 
 @app.route('/result/')
+@app.route('/index/result/')
 def result():
     gender = request.args.get('gender')
     user_name = request.args.get('first_name')
