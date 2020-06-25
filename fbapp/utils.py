@@ -4,15 +4,18 @@ import textwrap
 from PIL import Image, ImageDraw, ImageFont
 from fbapp.models import Content, Gender
 
-def find_content(gender):
-	contents = Content.query.filter(Content.gender == Gender[gender]).all()
+def find_content():
+	contents = Content.query.all()
 	return random.choice(contents)
+
+def find_color(gender):
+	colors = Colors.query.filter(Colors.gender == Gender[gender]).all()
+	return random.choice(colors)
 
 class OpenGraphImage:
 	PATH_imgs = os.path.join('fbapp', 'static', 'tmp')
-	colors = ['#C0392B', '#4A235A', '#1A5276', '#21618C', '#117864', '#0E6655', '#196F3D', '#1D8348', '#9A7D0A', '#9C640C', '#935116', '#BA4A00', '#212F3C', '#212F3D', '#424949']
 
-	def __init__(self , first_name, description):
+	def __init__(self , first_name, description, color):
 		# Take the image name
 		image_name = self.get_image_name()
 		self.img_name = image_name
@@ -27,8 +30,8 @@ class OpenGraphImage:
 
 		background.save(self._path(image_name), quality=90)
 
-	def base(self):
-		img = Image.new('RGB',(1200,630), random.choice(self.colors))
+	def base(self, color):
+		img = Image.new('RGB',(1200,630), color)
 		return img
 
 

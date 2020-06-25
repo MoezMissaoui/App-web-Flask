@@ -41,8 +41,9 @@ def result():
     user_name = request.args.get('first_name')
     uid = request.args.get('id')
     profile_pic = 'http://graph.facebook.com/' + uid + '/picture?type=large'
-    description = find_content(gender).description
-    img = OpenGraphImage(user_name, description).location
+    description = find_content().description
+    color = find_color(gender).color
+    img = OpenGraphImage(user_name, description, color).location
     og_url = url_for('index', img=img, _external=True)
     return render_template('result.html',
                             user_name=user_name,
