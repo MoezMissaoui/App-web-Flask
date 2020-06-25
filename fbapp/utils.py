@@ -9,10 +9,14 @@ def find_content(gender):
 	return random.choice(contents)
 
 class OpenGraphImage:
+	PATH_imgs = os.path.join('fbapp', 'static', 'tmp')
 	colors = ['#C0392B', '#4A235A', '#1A5276', '#21618C', '#117864', '#0E6655', '#196F3D', '#1D8348', '#9A7D0A', '#9C640C', '#935116', '#BA4A00', '#212F3C', '#212F3D', '#424949']
 
-	def __init__(self, uid,  first_name, description):
-		self.location = self._location(uid)
+	def __init__(self , first_name, description):
+		# Take the image name
+		image_name = self.get_image_name()
+		self.img_name = image_name
+		self.location = self._location(image_name)
 		background = self.base()
 		self.print_on_img(background, first_name.capitalize(), 70, 50)
 		sentences = textwrap.wrap(description, width=60)
@@ -21,7 +25,7 @@ class OpenGraphImage:
 			w, h = self.print_on_img(background, sentence, 40, current_h)
 			current_h += h + pad
 
-		background.save(self._path(uid), quality=90)
+		background.save(self._path(image_name), quality=90)
 
 	def base(self):
 		img = Image.new('RGB',(1200,630), random.choice(self.colors))
@@ -36,8 +40,23 @@ class OpenGraphImage:
 		draw.text(position, text, (255,255,255), font=font)
 		return (w, h)
 
-	def _path(self, uid):
-		return os.path.join('fbapp', 'static', 'tmp', '{}.jpg'.format(uid))
+	def _path(self, image_name):
+		return os.path.join('fbapp', 'static', 'tmp', '{}.jpg'.format(image_name))
 
-	def _location(self, uid):
-		return 'tmp/{}.jpg'.format(uid)
+	def _location(self, image_name):
+		return 'tmp/{}.jpg'.format(image_name)
+
+	# The get_image_name() function check the existance of random name (sequence of 15 digits) in the directory of saving. If existe take an other random name
+	def get_image_name(self):
+
+		# existfiles = list(filter(lambda file : os.path.isfile(os.path.join(self.PATH_imgs, file)) , os.listdir(self.PATH_imgs) ))
+		existfiles = [file for file in os.listdir(self.PATH_imgs) if os.path.isfile(os.path.join(self.PATH_imgs, file)) ]
+		
+		# existfiles = list(map(lambda file : os.path.splitext(file)[0] , existfiles ))
+		existfiles = [os.path.splitext(file)[0] for file in existfiles]
+
+		image_name = str(random.randrange(100000000000000,999999999999999))
+		while image_name in existfiles  :
+			image_name = str(random.randrange(100000000000000,999999999999999))
+
+		return image_name
