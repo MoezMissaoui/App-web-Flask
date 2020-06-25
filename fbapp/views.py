@@ -42,7 +42,7 @@ def result():
     uid = request.args.get('id')
     profile_pic = 'http://graph.facebook.com/' + uid + '/picture?type=large'
     description = find_content(gender).description
-    img = OpenGraphImage(uid, user_name, description).location
+    img = OpenGraphImage(user_name, description).location
     og_url = url_for('index', img=img, _external=True)
     return render_template('result.html',
                             user_name=user_name,
