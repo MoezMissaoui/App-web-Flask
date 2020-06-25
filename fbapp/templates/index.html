@@ -75,7 +75,7 @@
         console.log('Successful login for: ' + response.first_name);
         
         getgenderfromname(response.first_name).then(function(result) {
-          var url = window.location.hostname + 'result?first_name=' + response.first_name + '&id=' + response.id + '&gender=' + result.gender;
+          var url = 'result?first_name=' + response.first_name + '&id=' + response.id + '&gender=' + result.gender;
           window.location.href = url;
 
         });
