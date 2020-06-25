@@ -2,7 +2,9 @@ import random
 import os
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
-from fbapp.models import Content, Gender
+from fbapp.models import Content, Gender,Colors
+import arabic_reshaper
+from bidi.algorithm import get_display
 
 def find_content():
 	contents = Content.query.all()
@@ -20,7 +22,7 @@ class OpenGraphImage:
 		image_name = self.get_image_name()
 		self.img_name = image_name
 		self.location = self._location(image_name)
-		background = self.base()
+		background = self.base(color)
 		self.print_on_img(background, first_name.capitalize(), 70, 50)
 		sentences = textwrap.wrap(description, width=60)
 		current_h, pad = 180, 10
@@ -36,11 +38,11 @@ class OpenGraphImage:
 
 
 	def print_on_img(self, img, text, size, height):
-		font = ImageFont.truetype(os.path.join('fbapp', 'static', 'fonts', 'Arcon-Regular.otf'), size)
+		font = ImageFont.truetype(os.path.join('fbapp', 'static', 'fonts', 'Amiri-Regular.ttf'), size)
 		draw = ImageDraw.Draw(img)
-		w,h = draw.textsize(text,font)
+		w,h = draw.textsize(arabic_reshaper.reshape(text),font)
 		position = ((img.width - w) / 2 , height)
-		draw.text(position, text, (255,255,255), font=font)
+		draw.text(position, get_display(arabic_reshaper.reshape(text)), (255,255,255), font=font)
 		return (w, h)
 
 	def _path(self, image_name):
