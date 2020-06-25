@@ -13,7 +13,7 @@ from .utils import find_content, OpenGraphImage
 def index():
     if 'img' in request.args:
         img = request.args['img']
-        og_url = url_for('index', _external=True)
+        og_url = url_for('index', img=img, _external=True)
         og_image = url_for('static', filename=img, _external=True)
     else:
         og_url = url_for('index', _external=True)
